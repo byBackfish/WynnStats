@@ -1,0 +1,10 @@
+[
+    {
+        "modid": "wynnstats",
+        "name": "Wynncraft Stats",
+        "description": "Wynncraft Ingame Stats viewer",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "authorList": ["byBackfish"]
+    }
+]

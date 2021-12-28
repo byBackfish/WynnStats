@@ -1,0 +1,92 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:4.1+'
+        classpath "com.github.jengelman.gradle.plugins:shadow:5.2.0"
+    }
+}
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.6.10"
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: 'maven-publish'
+
+version = '1.0'
+group = 'de.bybackfish.wynnstats'
+archivesBaseName = 'wynnstats'
+
+sourceCompatibility = targetCompatibility = '1.8'
+
+
+configurations {
+    embed
+    compile.extendsFrom(embed)
+}
+
+minecraft {
+    mappings channel: 'snapshot', version: '20171003-1.12'
+    runs {
+        client {
+            workingDirectory project.file('run')
+        }
+    }
+}
+
+repositories {
+    maven { url = "https://www.jitpack.io"  }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+
+    embed 'com.github.byBackfish:WynncraftAPIWrapper:-SNAPSHOT'
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title": "WynnStats",
+                "Specification-Vendor": "WynnStats",
+                "Specification-Version": "1",
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" :"github.com/byBackfish",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
+shadowJar {
+    version = 1.0
+    classifier = ''
+    configurations = [project.configurations.embed]
+}
+
+reobf {
+    shadowJar {
+    }
+}
+tasks.build.dependsOn reobfShadowJar
+jar.finalizedBy('reobfShadowJar')
