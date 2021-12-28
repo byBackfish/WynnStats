@@ -75,9 +75,11 @@ class PlayerCommand : CommandBase() {
                 sender.sendMessage(TextComponentString(""))
 
                 if (player.data[0].meta.location.online) {
-                    sender.sendMessage(TextComponentString("§6- Online: §6[§7${player.data[0].meta.location}m§6] §a🟢"))
-                    sender.sendMessage(TextComponentString(""))
+                    sender.sendMessage(TextComponentString("§6- §aOnline: §6[§7${player.data[0].meta.location.server}m§6]"))
+                } else {
+                    sender.sendMessage(TextComponentString("§6- §cOffline"))
                 }
+                sender.sendMessage(TextComponentString(""))
 
                 val professions = TextComponentString("§6- Professions §8(Hover) ")
                 professions.style = Style()
