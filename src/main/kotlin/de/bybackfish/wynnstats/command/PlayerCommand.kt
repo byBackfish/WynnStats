@@ -75,7 +75,7 @@ class PlayerCommand : CommandBase() {
                 sender.sendMessage(TextComponentString(""))
 
                 if (player.data[0].meta.location.online) {
-                    sender.sendMessage(TextComponentString("§6- §aOnline: §6[§7${player.data[0].meta.location.server}m§6]"))
+                    sender.sendMessage(TextComponentString("§6- §aOnline: §6[§7${player.data[0].meta.location.server}§6]"))
                 } else {
                     sender.sendMessage(TextComponentString("§6- §cOffline"))
                 }
