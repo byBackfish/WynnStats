@@ -17,6 +17,11 @@ class GuildCommand : CommandBase() {
     var lastUpdate: Long = 0
     val updateTimer = 300000
 
+    init {
+        lastUpdate = System.currentTimeMillis();
+        guilds = stats.getGuilds()!!.guilds
+    }
+
     override fun getName(): String = "gs"
     override fun getAliases(): MutableList<String> =
         listOf("guildstats", "guilds", "viewguild", "guildviewer").toMutableList()
