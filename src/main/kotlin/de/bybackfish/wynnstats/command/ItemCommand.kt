@@ -189,9 +189,8 @@ class ItemCommand : CommandBase() {
                 ))
 
             val midComponent = TextComponentString(" §7${page + 1}§8/§7${maxPages}")
-            midComponent.style = Style()
+            midComponent.style = Style().setHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponentString("§7Currently viewing page ${page + 1} of $maxPages")))
             backComponent.appendSibling(midComponent)
-
 
             val forwardComponent = TextComponentString(" §7>")
             forwardComponent.style = Style().setHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponentString("§7Go forward a page")))
