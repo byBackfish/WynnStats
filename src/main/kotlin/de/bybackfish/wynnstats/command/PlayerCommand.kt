@@ -172,5 +172,6 @@ class PlayerCommand : CommandBase() {
                 sender.sendMessage(TextComponentString("§cError: §7${e.message}"))
             }
         }.start()
+
     }
 }

@@ -1,12 +1,9 @@
 package de.bybackfish.wynnstats.command
 
+import camelCase
 import com.mojang.realmsclient.gui.ChatFormatting
-import containsIgnoreCase
-import de.bybackfish.wynnapi.WynnStats
 import de.bybackfish.wynnapi.items.Item
 import de.bybackfish.wynnapi.items.ItemCategory
-import de.bybackfish.wynnapi.items.Items
-import de.bybackfish.wynnstats.WynnStatsMod
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.server.MinecraftServer
@@ -37,8 +34,8 @@ class ItemCommand : CommandBase() {
         items = (items as ArrayList<Item>).sortedBy { getTier(it.tier) }
     }
 
-    fun getTier(tier: String?): String {
-        return when (tier) {
+    private fun getTier(tier: String?): String {
+        return when ((tier ?: "None").lowercase()) {
             "normal" -> "G"
             "unique" -> "F"
             "rare" -> "E"
@@ -78,23 +75,28 @@ class ItemCommand : CommandBase() {
             for (arg in args.slice(2 until args.size)) {
                 name.append(" ").append(arg)
             }
+            // /items arg[0] arg[1] arg[2]
+            // /items name Pan
+            // /items name Panic
+            // /items name Panic Zealot
+
             println("Query: $name")
             val possible = items!!.filter { it.name!!.startsWith(name.toString()) }.map {
-               try{
-                   it.name!!.split(" ")[args.size - 1]
-               }catch (e: IndexOutOfBoundsException) {
-                it.name!!
-               }
-
+                   it.name!!.split(" ")[args.size - 2]
             }.toMutableList()
-            if (possible.size < 30) {
-                return possible
+            return if (possible.size < 30) {
+                possible
+            } else {
+                possible.slice(0 until 30).toMutableList()
             }
         }
 
         if(args[0] == "category")
             return ItemCategory.values().filter { it.name.startsWith(args[1]) }.map { it.name }.toMutableList()
 
+        if(args.size == 1){
+            return mutableListOf("name", "category", "all").filter { it.startsWith(args[0]) }.toMutableList()
+        }
         return mutableListOf()
     }
 
@@ -149,23 +151,23 @@ class ItemCommand : CommandBase() {
 
     }
 
-    fun showItems(sender: ICommandSender, items: List<Item>, page: Int = 0, subcommand: String) {
+    private fun showItems(sender: ICommandSender, items: List<Item>, page: Int = 0, subcommand: String) {
         var possible = items
         var paged = false
         if(possible.size > PER_PAGE){
-            possible = possible.slice(page * PER_PAGE until page * PER_PAGE + PER_PAGE)
+            possible = possible.slice(page * PER_PAGE until page * PER_PAGE + PER_PAGE).sortedBy { getTier(it.tier) }
             paged = true;
         }
         sender.sendMessage(TextComponentString("§6--- Items §7[${items.size} found] §6---"))
         sender.sendMessage(TextComponentString(""))
 
         for (item in possible) {
-            val component = TextComponentString("§6- ${getColor(item)}${item.name} §8[§7${(if(item.type == null) "None" else item.type)!!.lowercase()}§8]")
+            val component = TextComponentString("§6- ${getColor(item)}${item.name} §8[§7${getType(item).camelCase()}§8]")
             component.style = Style().setHoverEvent(
                 HoverEvent(
                     HoverEvent.Action.SHOW_TEXT,
                     TextComponentString(
-                        "${getColor(item)}${item.name} §8[§7${(if(item.type == null) "None" else item.type)!!.uppercase()}§8]\n" +
+                        "${getColor(item)}${item.name} §8[§7${getType(item)}§8]\n" +
                                 "§7${item.category}\n" +
                                 "§7${item.tier}\n§8Click to open in Wynndata"
                     )
@@ -186,9 +188,10 @@ class ItemCommand : CommandBase() {
                     "/items all " + (if(page == 0) 0 else page - 1)
                 ))
 
-            backComponent.appendSibling(TextComponentString(" §7${page + 1}§8/§7${maxPages}"))
+            val midComponent = TextComponentString(" §7${page + 1}§8/§7${maxPages}")
+            midComponent.style = Style()
+            backComponent.appendSibling(midComponent)
 
-            println("Max Pages: $maxPages | Next Page: $pages")
 
             val forwardComponent = TextComponentString(" §7>")
             forwardComponent.style = Style().setHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponentString("§7Go forward a page")))
@@ -232,6 +235,16 @@ class ItemCommand : CommandBase() {
         }
         component.style = style
         this.sendMessage(component)
+    }
+
+    fun getType(item: Item): String {
+        item.accessoryType?.let {
+            return it
+        }
+        item.type?.let {
+            return it
+        }
+        return "None"
     }
 
 
