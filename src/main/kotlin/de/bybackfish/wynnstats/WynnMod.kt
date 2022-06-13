@@ -2,7 +2,10 @@ package de.bybackfish.wynnstats
 
 
 import de.bybackfish.wynnapi.WynnStats
-import de.bybackfish.wynnstats.command.stats.*;
+import de.bybackfish.wynnstats.commands.stats.GuildMembersCommand
+import de.bybackfish.wynnstats.commands.stats.GuildStatsCommand
+import de.bybackfish.wynnstats.commands.stats.PlayerStatsCommand
+import de.bybackfish.wynnstats.commands.stats.ServersCommand
 import de.bybackfish.wynnstats.util.DataContainer
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.EntityRenderer

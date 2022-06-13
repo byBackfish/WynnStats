@@ -1,4 +1,4 @@
-package de.bybackfish.wynnstats.command.stats
+package de.bybackfish.wynnstats.commands.stats
 
 import camelCase
 import com.mojang.realmsclient.gui.ChatFormatting
@@ -192,10 +192,10 @@ fun buildSkillString(clazz: PlayerClasses): String {
 fun buildGamemodeString(clazz: PlayerClasses): String{
     var output = "";
 
-    if(clazz.gamemode.hardcore) output+=GamemodeIcons.HARDCORE;
-    if(clazz.gamemode.ironman) output+=GamemodeIcons.IRONMAN;
-    if(clazz.gamemode.craftsman) output+=GamemodeIcons.CRAFTSMAN;
-    if(clazz.gamemode.hunted) output+=GamemodeIcons.HUNTED;
+    if(clazz.gamemode.hardcore) output+= GamemodeIcons.HARDCORE;
+    if(clazz.gamemode.ironman) output+= GamemodeIcons.IRONMAN;
+    if(clazz.gamemode.craftsman) output+= GamemodeIcons.CRAFTSMAN;
+    if(clazz.gamemode.hunted) output+= GamemodeIcons.HUNTED;
 
     return output;
 }

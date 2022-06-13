@@ -1,4 +1,4 @@
-package de.bybackfish.wynnstats.command.stats
+package de.bybackfish.wynnstats.commands.stats
 
 import de.bybackfish.wynnstats.WynnMod
 import de.bybackfish.wynnstats.commands.Kommand
