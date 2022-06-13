@@ -9,7 +9,7 @@ import net.minecraft.util.text.TextComponentString
 import net.minecraft.util.text.event.ClickEvent
 import net.minecraft.util.text.event.HoverEvent
 
-class GuildStatsCommand: Kommand(k@{
+class GuildStatsCommand : Kommand(k@{
 
     if (it.isEmpty()) {
         send(TextComponentString("§cPlease specify a guild name!"))
@@ -60,8 +60,9 @@ class GuildStatsCommand: Kommand(k@{
     send(TextComponentString("§6- Created at: §7${guild.created}"))
     send(TextComponentString("§6-------------"))
 
-}, "guildstats", alias = arrayOf("guildstat", "gstat", "gv", "gs"), autoComplete =  autocomplete@{ args ->
-    val container: UpdateContainer = WynnMod.data.getOrDefaultContainer("guildstatsUpdate", UpdateContainer(data = arrayListOf<String>()))
+}, "guildstats", alias = arrayOf("guildstat", "gstat", "gv", "gs"), autoComplete = autocomplete@{ args ->
+    val container: UpdateContainer =
+        WynnMod.data.getOrDefaultContainer("guildstatsUpdate", UpdateContainer(data = arrayListOf<String>()))
     if (container.isUpdateNeeded()) {
         Thread {
             container.lastUpdate = System.currentTimeMillis()

@@ -42,7 +42,7 @@ open class Kommand(
         args: Array<out String>,
         targetPos: BlockPos?
     ): MutableList<String> {
-        if(autoComplete == null) return super.getTabCompletions(server, sender, args, targetPos);
+        if (autoComplete == null) return super.getTabCompletions(server, sender, args, targetPos)
         return super.getTabCompletions(server, sender, args, targetPos)
     }
 

@@ -20,7 +20,12 @@ class Adapter : ILanguageAdapter {
         target.set(modObject, proxy)
     }
 
-    override fun getNewInstance(container: FMLModContainer?, objectClass: Class<*>, classLoader: ClassLoader, factoryMarkedAnnotation: Method?): Any? {
+    override fun getNewInstance(
+        container: FMLModContainer?,
+        objectClass: Class<*>,
+        classLoader: ClassLoader,
+        factoryMarkedAnnotation: Method?
+    ): Any? {
         val instanceField = findInstanceFieldOrThrow(objectClass)
         val modObject = findModObjectOrThrow(instanceField)
         return modObject
@@ -52,10 +57,18 @@ class Adapter : ILanguageAdapter {
         return modObject
     }
 
-    private fun noInstanceFieldException(exception: Exception) = KotlinAdapterException("Couldn't find INSTANCE singleton on Kotlin @Mod container", exception)
-    private fun instanceSecurityException(exception: Exception) = KotlinAdapterException("Security violation accessing INSTANCE singleton on Kotlin @Mod container", exception)
-    private fun unexpectedInitializerSignatureException(exception: Exception) = KotlinAdapterException("Kotlin @Mod object has an unexpected initializer signature, somehow?", exception)
-    private fun wrongVisibilityOnInitializerException(exception: Exception) = KotlinAdapterException("Initializer on Kotlin @Mod object isn't `public`", exception)
+    private fun noInstanceFieldException(exception: Exception) =
+        KotlinAdapterException("Couldn't find INSTANCE singleton on Kotlin @Mod container", exception)
 
-    private class KotlinAdapterException(message: String, exception: Exception): RuntimeException("Kotlin adapter error - do not report to Forge! " + message, exception)
+    private fun instanceSecurityException(exception: Exception) =
+        KotlinAdapterException("Security violation accessing INSTANCE singleton on Kotlin @Mod container", exception)
+
+    private fun unexpectedInitializerSignatureException(exception: Exception) =
+        KotlinAdapterException("Kotlin @Mod object has an unexpected initializer signature, somehow?", exception)
+
+    private fun wrongVisibilityOnInitializerException(exception: Exception) =
+        KotlinAdapterException("Initializer on Kotlin @Mod object isn't `public`", exception)
+
+    private class KotlinAdapterException(message: String, exception: Exception) :
+        RuntimeException("Kotlin adapter error - do not report to Forge! " + message, exception)
 }

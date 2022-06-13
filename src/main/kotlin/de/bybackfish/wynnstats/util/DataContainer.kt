@@ -11,7 +11,7 @@ class DataContainer {
 
     fun <T> getOrDefaultContainer(key: String, default: T): T {
         val data = data[key]
-        if(data == null) {
+        if (data == null) {
             Minecraft.getMinecraft().player.sendMessage(
                 net.minecraft.util.text.TextComponentString("No data found for key: $key")
             )

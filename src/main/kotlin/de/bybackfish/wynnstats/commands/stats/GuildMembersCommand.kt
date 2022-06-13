@@ -9,7 +9,7 @@ import net.minecraft.util.text.TextComponentString
 import net.minecraft.util.text.event.ClickEvent
 import net.minecraft.util.text.event.HoverEvent
 
-class GuildMembersCommand: Kommand(k@{
+class GuildMembersCommand : Kommand(k@{
 
     if (it.isEmpty()) {
         send(TextComponentString("§cPlease specify a guild name!"))
@@ -49,5 +49,4 @@ class GuildMembersCommand: Kommand(k@{
 
     send(TextComponentString("§6-------------"))
 
-}, "guildmembers") {
-}
+}, "guildmembers")

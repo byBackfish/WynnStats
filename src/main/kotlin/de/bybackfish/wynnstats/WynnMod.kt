@@ -39,7 +39,7 @@ object WynnMod {
     @Mod.EventHandler
     fun preinit(event: FMLPreInitializationEvent) {
         val commandHandler = ClientCommandHandler.instance
-       PlayerStatsCommand()
+        PlayerStatsCommand()
         GuildStatsCommand()
         GuildMembersCommand()
         ServersCommand()

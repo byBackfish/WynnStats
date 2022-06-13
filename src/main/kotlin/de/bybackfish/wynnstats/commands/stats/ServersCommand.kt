@@ -8,7 +8,7 @@ import net.minecraft.util.text.TextComponentString
 import net.minecraft.util.text.event.ClickEvent
 import net.minecraft.util.text.event.HoverEvent
 
-class ServersCommand: Kommand(k@{
+class ServersCommand : Kommand(k@{
 
     val servers = WynnMod.stats.getServers()!!
     if (it.isEmpty()) {
